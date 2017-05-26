@@ -12,8 +12,8 @@ jobs:
       - restore_cache:
           key: composer-1.4.2
       - run:
-        name: Install Composer
-        command: curl -sSL https://github.com/composer/composer/releases/download/1.4.2/composer.phar -o composer && chmod +x composer
+          name: Install Composer
+          command: curl -sSL https://github.com/composer/composer/releases/download/1.4.2/composer.phar -o composer && chmod +x composer
       - save_cache:
           key: composer-1.4.2
           paths:

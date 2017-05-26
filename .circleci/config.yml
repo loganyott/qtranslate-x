@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: loganyott/php:7-debug
+      - image: loganyott/php:7-xdebug
         environment:
           XDEBUG_ENABLED: 1
     working_directory: ~/qtx

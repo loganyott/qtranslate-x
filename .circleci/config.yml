@@ -4,8 +4,6 @@ jobs:
   build:
     docker:
       - image: loganyott/php:7-xdebug
-        environment:
-          XDEBUG_ENABLED: 1
     working_directory: ~/qtx
     steps:
       - checkout

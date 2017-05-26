@@ -21,6 +21,7 @@
   <filter>
     <whitelist>
       <directory>./src</directory>
+      <directory suffix=".php">./</directory>
       <!-- By definition test classes have no tests. -->
       <exclude>
         <directory suffix="Test.php">./</directory>

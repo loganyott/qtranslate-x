@@ -3,12 +3,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docksal/cli:php7
+      - image: circleci/php:7.1
         environment:
           XDEBUG_ENABLED: 1
     working_directory: ~/qtx
     steps:
-      - run: composer self-update
       - checkout
       - restore_cache:
           keys:

@@ -3,21 +3,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1
+      - image: loganyott/php:7-debug
         environment:
           XDEBUG_ENABLED: 1
     working_directory: ~/qtx
     steps:
       - checkout
-      - restore_cache:
-          key: composer-1.4.2
-      - run:
-          name: Install Composer
-          command: curl -sSL https://github.com/composer/composer/releases/download/1.4.2/composer.phar -o composer && chmod +x composer
-      - save_cache:
-          key: composer-1.4.2
-          paths:
-            - composer
       - restore_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
       - run: ./composer install -on --prefer-dist
@@ -25,7 +16,6 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
-      - run: sudo apt-get -y --force-yes --no-install-recommends install php7.0-xdebug && sudo phpenmod xdebug
       - run: ./vendor/bin/phpunit --coverage-clover=clover.xml
       - run: bash <(curl -s https://codecov.io/bash) -s ~/qtx
       - run: ./vendor/bin/phpcs --config-set installed_paths $HOME/qtx/vendor/wp-coding-standards/wpcs

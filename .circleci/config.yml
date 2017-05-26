@@ -25,7 +25,7 @@ jobs:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
-      - run: apt-get -y --force-yes --no-install-recommends install php7.0-xdebug && phpenmod xdebug
+      - run: sudo apt-get -y --force-yes --no-install-recommends install php7.0-xdebug && sudo phpenmod xdebug
       - run: ./vendor/bin/phpunit --coverage-clover=clover.xml
       - run: bash <(curl -s https://codecov.io/bash) -s ~/qtx
       - run: ./vendor/bin/phpcs --config-set installed_paths $HOME/qtx/vendor/wp-coding-standards/wpcs

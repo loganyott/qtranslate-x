@@ -20,7 +20,7 @@ jobs:
             - composer
       - restore_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
-      - run: ./composer install install -n --prefer-dist
+      - run: ./composer install -on --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:

@@ -8,8 +8,8 @@ jobs:
           XDEBUG_ENABLED: 1
     working_directory: ~/qtx
     steps:
-      - checkout
       - run: composer self-update
+      - checkout
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}

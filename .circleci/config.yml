@@ -9,15 +9,23 @@ jobs:
     working_directory: ~/qtx
     steps:
       - checkout
+      - run:
+        name: Install Composer
+        command: |
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}
             - composer-v1-
-      - run: composer install -n --prefer-dist
+      - run: php composer.phar install install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
             - vendor
+      - run: apt-get -y --force-yes --no-install-recommends install php7.0-xdebug && phpenmod xdebug
       - run: ./vendor/bin/phpunit --coverage-clover=clover.xml
       - run: bash <(curl -s https://codecov.io/bash) -s ~/qtx
       - run: ./vendor/bin/phpcs --config-set installed_paths $HOME/qtx/vendor/wp-coding-standards/wpcs

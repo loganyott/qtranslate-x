@@ -9,6 +9,7 @@ jobs:
     working_directory: ~/qtx
     steps:
       - run: composer self-update
+      - checkout
       - restore_cache:
           keys:
             - composer-v1-{{ checksum "composer.lock" }}

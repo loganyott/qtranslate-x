@@ -9,18 +9,18 @@ jobs:
     working_directory: ~/qtx
     steps:
       - checkout
+      - restore_cache:
+          key: composer-1.4.2
       - run:
         name: Install Composer
-        command: |
-          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-          php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
-          php composer-setup.php
-          php -r "unlink('composer-setup.php');"
+        command: curl -sSL https://github.com/composer/composer/releases/download/1.4.2/composer.phar -o composer && chmod +x composer
+      - save_cache:
+          key: composer-1.4.2
+          paths:
+            - composer
       - restore_cache:
-          keys:
-            - composer-v1-{{ checksum "composer.lock" }}
-            - composer-v1-
-      - run: php composer.phar install install -n --prefer-dist
+          key: composer-v1-{{ checksum "composer.lock" }}
+      - run: ./composer install install -n --prefer-dist
       - save_cache:
           key: composer-v1-{{ checksum "composer.lock" }}
           paths:
